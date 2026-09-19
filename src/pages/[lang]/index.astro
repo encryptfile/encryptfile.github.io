@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import CryptoWorkspace from '../../components/CryptoWorkspace.tsx';
+import Features from '../../components/Features.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import Faq from '../../components/Faq.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations } from '../../i18n/utils';
+import type { SupportedLocale } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'es' } },
+    { params: { lang: 'pt' } },
+    { params: { lang: 'de' } },
+    { params: { lang: 'fr' } },
+    { params: { lang: 'ja' } },
+  ];
+}
+
+const { lang } = Astro.params as { lang: SupportedLocale };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang}>
+  <Header lang={lang} />
+
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="pt-12 sm:pt-20 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+      <!-- Trust Badges -->
+      <div class="inline-flex flex-wrap items-center justify-center gap-2 mb-6 animate-in fade-in slide-in-from-top-3 duration-500">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          {t('hero.badge.clientSide')}
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-sand/50 dark:bg-brand-surfaceDark2 text-brand-dark dark:text-brand-gold border border-brand-sand dark:border-brand-teal/30">
+          {t('hero.badge.zeroUploads')}
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-sand/50 dark:bg-brand-surfaceDark2 text-brand-teal dark:text-brand-textMutedDark border border-brand-sand dark:border-brand-teal/30">
+          {t('hero.badge.encryption')}
+        </span>
+      </div>
+
+      <!-- Headline & Subtitle -->
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-brand-dark dark:text-white max-w-4xl mx-auto leading-tight">
+        {t('hero.title')}
+      </h1>
+      <p class="mt-5 text-base sm:text-lg md:text-xl text-brand-textMutedLight dark:text-brand-textMutedDark max-w-2xl mx-auto leading-relaxed">
+        {t('hero.subtitle')}
+      </p>
+
+      <!-- Interactive React Crypto Workspace -->
+      <div class="mt-10 sm:mt-14">
+        <CryptoWorkspace client:load lang={lang} />
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <Features lang={lang} />
+
+    <!-- How It Works Section -->
+    <HowItWorks lang={lang} />
+
+    <!-- FAQ Accordion Section -->
+    <Faq lang={lang} />
+  </main>
+
+  <Footer lang={lang} />
+</Layout>

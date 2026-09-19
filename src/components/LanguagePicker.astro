@@ -1,0 +1,126 @@
+---
+import { languages, defaultLang, type SupportedLocale } from '../i18n/ui';
+import { getLangFromUrl, getTargetLocaleUrl } from '../i18n/utils';
+
+interface Props {
+  lang?: SupportedLocale;
+}
+
+const currentUrl = Astro.url;
+const currentLang = Astro.props.lang || getLangFromUrl(currentUrl);
+
+const localeFlags: Record<SupportedLocale, string> = {
+  en: '🇺🇸',
+  es: '🇪🇸',
+  pt: '🇧🇷',
+  de: '🇩🇪',
+  fr: '🇫🇷',
+  ja: '🇯🇵',
+};
+---
+
+<div class="relative inline-block text-left" id="language-picker-container">
+  <button
+    id="lang-menu-button"
+    type="button"
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-label={`Current language: ${languages[currentLang]}. Select language`}
+    title={`Change Language (${languages[currentLang]})`}
+    class="inline-flex items-center justify-center gap-1.5 w-9 h-9 lg:w-auto lg:h-9 lg:px-3 text-sm font-medium rounded-xl text-brand-dark/90 dark:text-brand-textDark/90 bg-white/70 dark:bg-brand-surfaceDark border border-brand-sand/80 dark:border-brand-teal/40 hover:bg-brand-sand/30 dark:hover:bg-brand-surfaceDark2 shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
+  >
+    <span class="text-base leading-none" aria-hidden="true">{localeFlags[currentLang]}</span>
+    <span class="hidden lg:inline uppercase font-semibold tracking-wider text-xs">{currentLang}</span>
+    <svg
+      class="hidden lg:block w-3.5 h-3.5 text-brand-teal dark:text-brand-textMutedDark transition-transform duration-200"
+      id="lang-menu-arrow"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  </button>
+
+  <!-- Dropdown menu -->
+  <div
+    id="lang-menu-dropdown"
+    class="hidden absolute right-0 z-50 mt-2 w-44 origin-top-right rounded-xl bg-white dark:bg-brand-surfaceDark shadow-xl border border-brand-sand dark:border-brand-teal/40 py-1.5 focus:outline-none transition-all duration-150 animate-in fade-in slide-in-from-top-2"
+    role="menu"
+    aria-orientation="vertical"
+    tabindex="-1"
+  >
+    {
+      (Object.keys(languages) as SupportedLocale[]).map((loc) => {
+        const isCurrent = loc === currentLang;
+        const targetUrl = getTargetLocaleUrl(currentUrl, loc);
+
+        return (
+          <a
+            href={targetUrl}
+            role="menuitem"
+            class={`flex items-center justify-between px-3.5 py-2 text-sm transition-colors ${
+              isCurrent
+                ? 'bg-brand-teal/10 dark:bg-brand-teal/25 text-brand-dark dark:text-white font-semibold'
+                : 'text-slate-700 dark:text-slate-200 hover:bg-brand-sand/40 dark:hover:bg-brand-surfaceDark2'
+            }`}
+          >
+            <span class="flex items-center gap-2">
+              <span class="text-base" aria-hidden="true">{localeFlags[loc]}</span>
+              <span>{languages[loc]}</span>
+            </span>
+            {isCurrent && (
+              <svg class="w-4 h-4 text-brand-teal dark:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+              </svg>
+            )}
+          </a>
+        );
+      })
+    }
+  </div>
+</div>
+
+<script is:inline>
+  const container = document.getElementById('language-picker-container');
+  const btn = document.getElementById('lang-menu-button');
+  const dropdown = document.getElementById('lang-menu-dropdown');
+  const arrow = document.getElementById('lang-menu-arrow');
+
+  if (btn && dropdown) {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!isExpanded));
+      dropdown.classList.toggle('hidden');
+      if (arrow) {
+        arrow.classList.toggle('rotate-180');
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!container?.contains(e.target)) {
+        btn.setAttribute('aria-expanded', 'false');
+        dropdown.classList.add('hidden');
+        if (arrow) {
+          arrow.classList.remove('rotate-180');
+        }
+      }
+    });
+
+    // Close with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        btn.setAttribute('aria-expanded', 'false');
+        dropdown.classList.add('hidden');
+        if (arrow) {
+          arrow.classList.remove('rotate-180');
+        }
+      }
+    });
+  }
+</script>

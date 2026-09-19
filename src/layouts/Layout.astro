@@ -1,0 +1,269 @@
+---
+import '../styles/global.css';
+import { defaultLang, languages, type SupportedLocale } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang?: SupportedLocale;
+  title?: string;
+  description?: string;
+}
+
+const { lang = defaultLang, title, description } = Astro.props;
+const t = useTranslations(lang);
+
+const siteUrl = 'https://encryptfile.github.io';
+const pageTitle = title || t('seo.title');
+const pageDescription = description || t('seo.description');
+const pageKeywords = t('seo.keywords');
+
+// High-resolution dedicated OpenGraph social preview image
+const ogImageUrl = 'https://res.cloudinary.com/dpx6w78bt/image/upload/f_auto/q_auto/v1786342039/Online_Tool_rc1ybr.png';
+
+// Build canonical URL
+const currentPath = Astro.url.pathname;
+const canonicalUrl = new URL(currentPath, siteUrl).href;
+
+// Locale mappings for OpenGraph
+const ogLocaleMap: Record<SupportedLocale, string> = {
+  en: 'en_US',
+  es: 'es_ES',
+  pt: 'pt_BR',
+  de: 'de_DE',
+  fr: 'fr_FR',
+  ja: 'ja_JP',
+};
+
+// JSON-LD Schema: WebApplication
+const jsonLdWebapp = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'EncryptFile',
+  url: siteUrl,
+  applicationCategory: 'SecurityApplication',
+  operatingSystem: 'All Modern Web Browsers',
+  browserRequirements: 'Requires JavaScript and W3C Web Crypto API support',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  description: pageDescription,
+  image: ogImageUrl,
+  featureList: [
+    'Client-Side AES-256-GCM Encryption',
+    'PBKDF2 Key Derivation with 600,000 iterations and SHA-256',
+    'Zero Server Uploads - 100% In-Memory Processing',
+    'Supports any file format (PDF, images, zip, documents)',
+    'Offline-first and zero telemetry',
+  ],
+};
+
+// JSON-LD Schema: Organization
+const jsonLdOrg = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'EncryptFile',
+  url: siteUrl,
+  logo: `${siteUrl}/favicon.svg`,
+  sameAs: [
+    'https://github.com/encryptfile/encryptfile.github.io',
+    'https://buymeacoffee.com/kisharadilz',
+  ],
+};
+
+// JSON-LD Schema: BreadcrumbList
+const jsonLdBreadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: `${siteUrl}/`,
+    },
+    ...(lang !== defaultLang
+      ? [
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: languages[lang],
+            item: canonicalUrl,
+          },
+        ]
+      : []),
+  ],
+};
+
+// JSON-LD Schema: HowTo
+const jsonLdHowTo = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: t('howItWorks.title'),
+  description: t('howItWorks.subtitle'),
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: t('howItWorks.step1.title'),
+      text: t('howItWorks.step1.desc'),
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: t('howItWorks.step2.title'),
+      text: t('howItWorks.step2.desc'),
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: t('howItWorks.step3.title'),
+      text: t('howItWorks.step3.desc'),
+    },
+  ],
+};
+
+// JSON-LD Schema: FAQPage
+const jsonLdFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: t('faq.q1'),
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: t('faq.a1'),
+      },
+    },
+    {
+      '@type': 'Question',
+      name: t('faq.q2'),
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: t('faq.a2'),
+      },
+    },
+    {
+      '@type': 'Question',
+      name: t('faq.q3'),
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: t('faq.a3'),
+      },
+    },
+    {
+      '@type': 'Question',
+      name: t('faq.q4'),
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: t('faq.a4'),
+      },
+    },
+    {
+      '@type': 'Question',
+      name: t('faq.q5'),
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: t('faq.a5'),
+      },
+    },
+    {
+      '@type': 'Question',
+      name: t('faq.q6'),
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: t('faq.a6'),
+      },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EFLSG7SYS0"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-EFLSG7SYS0');
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="keywords" content={pageKeywords} />
+    <meta name="author" content="EncryptFile" />
+    <meta name="theme-color" content="#123F36" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- 7 Bidirectional hreflang links -->
+    <link rel="alternate" hreflang="x-default" href={`${siteUrl}/`} />
+    <link rel="alternate" hreflang="en" href={`${siteUrl}/`} />
+    <link rel="alternate" hreflang="es" href={`${siteUrl}/es/`} />
+    <link rel="alternate" hreflang="pt" href={`${siteUrl}/pt/`} />
+    <link rel="alternate" hreflang="de" href={`${siteUrl}/de/`} />
+    <link rel="alternate" hreflang="fr" href={`${siteUrl}/fr/`} />
+    <link rel="alternate" hreflang="ja" href={`${siteUrl}/ja/`} />
+
+    <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:site_name" content="EncryptFile" />
+    <meta property="og:locale" content={ogLocaleMap[lang]} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:secure_url" content={ogImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="EncryptFile | Free Online File Encryptor & Decryptor" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content="EncryptFile | Free Online File Encryptor & Decryptor" />
+
+    <!-- Synchronous Anti-FOUC Theme Script -->
+    <script is:inline>
+      (function () {
+        try {
+          const stored = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (stored === 'dark' || (!stored && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {
+          // Fallback if localStorage is disabled
+        }
+      })();
+    </script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdWebapp)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdOrg)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdBreadcrumb)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdHowTo)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdFaq)} />
+  </head>
+  <body class="min-h-screen flex flex-col bg-brand-bgLight text-brand-textLight dark:bg-brand-darker dark:text-brand-textDark transition-colors duration-200">
+    <slot />
+  </body>
+</html>

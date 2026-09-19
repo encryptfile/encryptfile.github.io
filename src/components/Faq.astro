@@ -1,0 +1,56 @@
+---
+import { defaultLang, type SupportedLocale } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang?: SupportedLocale;
+}
+
+const { lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
+
+const faqs = [
+  { q: t('faq.q1'), a: t('faq.a1') },
+  { q: t('faq.q2'), a: t('faq.a2') },
+  { q: t('faq.q3'), a: t('faq.a3') },
+  { q: t('faq.q4'), a: t('faq.a4') },
+  { q: t('faq.q5'), a: t('faq.a5') },
+  { q: t('faq.q6'), a: t('faq.a6') },
+];
+---
+
+<section id="faq" class="py-16 sm:py-24 border-t border-brand-sand/70 dark:border-brand-teal/20 transition-colors">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-brand-dark dark:text-white">
+        {t('faq.title')}
+      </h2>
+      <p class="mt-4 text-base sm:text-lg text-brand-textMutedLight dark:text-brand-textMutedDark">
+        {t('faq.subtitle')}
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {
+        faqs.map((item, index) => (
+          <details
+            class="group rounded-2xl bg-white dark:bg-brand-surfaceDark border border-brand-sand/90 dark:border-brand-teal/30 p-5 sm:p-6 transition-all duration-200 open:shadow-md hover:border-brand-teal/50"
+            open={index === 0}
+          >
+            <summary class="cursor-pointer list-none flex items-center justify-between gap-4 font-semibold text-base sm:text-lg text-brand-dark dark:text-white select-none">
+              <span>{item.q}</span>
+              <span class="shrink-0 w-7 h-7 rounded-full bg-brand-sand/40 dark:bg-brand-surfaceDark2 border border-brand-sand dark:border-brand-teal/40 flex items-center justify-center text-brand-dark dark:text-brand-gold transition-transform duration-200 group-open:rotate-180">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            </summary>
+            <div class="mt-4 pt-4 border-t border-brand-sand/40 dark:border-brand-teal/20 text-sm sm:text-base leading-relaxed text-brand-textMutedLight dark:text-brand-textMutedDark">
+              <p>{item.a}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

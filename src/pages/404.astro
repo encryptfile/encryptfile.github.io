@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { defaultLang } from '../i18n/ui';
+---
+
+<Layout lang={defaultLang} title="404 - Page Not Found | EncryptFile">
+  <Header lang={defaultLang} />
+
+  <main class="flex-1 flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8 text-center">
+    <div class="max-w-md mx-auto space-y-6">
+      <div class="w-20 h-20 mx-auto rounded-3xl bg-brand-sand/40 dark:bg-brand-surfaceDark2 border border-brand-sand dark:border-brand-teal/40 flex items-center justify-center text-brand-teal dark:text-brand-gold">
+        <svg
+          class="w-10 h-10"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      </div>
+
+      <div class="space-y-2">
+        <span class="text-xs font-mono font-bold tracking-widest uppercase text-brand-teal dark:text-brand-gold">
+          Error 404
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-black text-brand-dark dark:text-white">
+          Page Not Found
+        </h1>
+        <p class="text-sm sm:text-base text-brand-textMutedLight dark:text-brand-textMutedDark">
+          The page or route you are looking for does not exist or has been relocated.
+        </p>
+      </div>
+
+      <div>
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm bg-brand-dark hover:bg-brand-teal dark:bg-brand-teal dark:hover:bg-[#327d6c] text-white shadow-md transition-all active:scale-95"
+        >
+          <span>Return to EncryptFile Home</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer lang={defaultLang} />
+</Layout>

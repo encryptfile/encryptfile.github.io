@@ -1,0 +1,103 @@
+---
+import { defaultLang, type SupportedLocale } from '../i18n/ui';
+import { useTranslations, useTranslatedPath } from '../i18n/utils';
+import ThemeToggle from './ThemeToggle.astro';
+import LanguagePicker from './LanguagePicker.astro';
+
+interface Props {
+  lang?: SupportedLocale;
+}
+
+const { lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+const homeUrl = translatePath('/');
+---
+
+<header
+  class="sticky top-0 z-40 w-full backdrop-blur-md bg-brand-bgLight/90 dark:bg-brand-darker/90 border-b border-brand-sand/70 dark:border-brand-teal/25 transition-colors duration-200"
+>
+  <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
+    <!-- Brand Logo -->
+    <a href={homeUrl} class="flex items-center gap-2 sm:gap-2.5 group focus:outline-none focus:ring-2 focus:ring-brand-teal rounded-lg p-1 shrink-0">
+      <div
+        class="w-9 h-9 rounded-xl bg-brand-dark dark:bg-brand-surfaceDark border border-brand-teal/40 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform shrink-0"
+      >
+        <svg
+          class="w-5 h-5 text-brand-gold"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <rect x="9" y="11" width="6" height="5" rx="1" fill="currentColor" />
+          <path d="M10 11V9a2 2 0 1 1 4 0v2" />
+        </svg>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-base sm:text-lg font-bold tracking-tight text-brand-dark dark:text-white leading-none">
+          Encrypt<span class="text-brand-teal dark:text-brand-gold">File</span>
+        </span>
+        <span class="hidden sm:inline text-[10px] font-medium tracking-wide uppercase text-brand-textMutedLight dark:text-brand-textMutedDark mt-0.5">
+          {t('nav.tagline')}
+        </span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation Links (Only shown on Desktop lg: >= 1024px) -->
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-brand-dark/80 dark:text-brand-textMutedDark">
+      <a href="#features" class="hover:text-brand-teal dark:hover:text-white transition-colors">
+        {t('nav.features')}
+      </a>
+      <a href="#how-it-works" class="hover:text-brand-teal dark:hover:text-white transition-colors">
+        {t('nav.howItWorks')}
+      </a>
+      <a href="#faq" class="hover:text-brand-teal dark:hover:text-white transition-colors">
+        {t('nav.faq')}
+      </a>
+    </nav>
+
+    <!-- Controls & Actions: Kept clean & icon-only on mobile and tablet -->
+    <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+      <!-- Language Picker (Icon on mobile/tab, expanded on lg) -->
+      <LanguagePicker lang={lang} />
+
+      <!-- Theme Switcher (36x36 icon button) -->
+      <ThemeToggle lang={lang} />
+
+      <!-- Support Developer CTA (Icon-only on mobile/tab, full on lg) -->
+      <a
+        href="https://buymeacoffee.com/kisharadilz"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center gap-1.5 w-9 h-9 lg:w-auto lg:h-9 lg:px-4 text-sm font-semibold rounded-xl bg-brand-gold hover:bg-[#b08739] text-brand-dark shadow-sm hover:shadow transition-all transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-gold/50"
+        title="Support the Developer on Buy Me a Coffee"
+        aria-label={t('nav.support')}
+      >
+        <!-- Coffee Cup Icon -->
+        <svg
+          class="w-4 h-4 text-brand-dark shrink-0"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M17 8h1a4 4 0 1 1 0 8h-1"></path>
+          <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"></path>
+          <line x1="6" y1="2" x2="6" y2="4"></line>
+          <line x1="10" y1="2" x2="10" y2="4"></line>
+          <line x1="14" y1="2" x2="14" y2="4"></line>
+        </svg>
+        <span class="hidden lg:inline">{t('nav.support')}</span>
+      </a>
+    </div>
+  </div>
+</header>

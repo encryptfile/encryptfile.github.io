@@ -1,0 +1,96 @@
+---
+import { languages, defaultLang, type SupportedLocale } from '../i18n/ui';
+import { useTranslations, getTargetLocaleUrl } from '../i18n/utils';
+
+interface Props {
+  lang?: SupportedLocale;
+}
+
+const { lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
+const currentUrl = Astro.url;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="mt-auto border-t border-brand-sand/70 dark:border-brand-teal/20 bg-white/60 dark:bg-brand-surfaceDark/50 transition-colors">
+  <!-- Developer Support Banner -->
+  <div class="border-b border-brand-sand/40 dark:border-brand-teal/15 py-10 px-4 sm:px-6 lg:px-8 text-center bg-brand-sand/15 dark:bg-brand-surfaceDark/80">
+    <div class="max-w-2xl mx-auto flex flex-col items-center">
+      <div class="w-12 h-12 rounded-2xl bg-brand-gold/20 flex items-center justify-center text-brand-gold mb-3">
+        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 8h1a4 4 0 1 1 0 8h-1"></path>
+          <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"></path>
+          <line x1="6" y1="2" x2="6" y2="4"></line>
+          <line x1="10" y1="2" x2="10" y2="4"></line>
+          <line x1="14" y1="2" x2="14" y2="4"></line>
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold text-brand-dark dark:text-white">
+        {t('support.title')}
+      </h3>
+      <p class="mt-2 text-sm sm:text-base text-brand-textMutedLight dark:text-brand-textMutedDark max-w-lg">
+        {t('support.desc')}
+      </p>
+      <a
+        href="https://buymeacoffee.com/kisharadilz"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm bg-brand-gold hover:bg-[#b08739] text-brand-dark shadow-sm hover:shadow-md transition-all active:scale-95"
+      >
+        <span>{t('support.button')}</span>
+        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation & Meta -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <!-- Brand & Tagline -->
+      <div class="flex flex-col items-center md:items-start text-center md:text-left">
+        <div class="flex items-center gap-2 mb-1.5">
+          <div class="w-6 h-6 rounded-md bg-brand-dark dark:bg-brand-teal flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 text-brand-gold" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <span class="font-bold text-brand-dark dark:text-white">EncryptFile</span>
+        </div>
+        <p class="text-xs text-brand-textMutedLight dark:text-brand-textMutedDark max-w-sm">
+          {t('footer.disclaimer')}
+        </p>
+      </div>
+
+      <!-- Language Links -->
+      <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-xs font-medium text-brand-textMutedLight dark:text-brand-textMutedDark">
+        {
+          (Object.keys(languages) as SupportedLocale[]).map((loc) => {
+            const isCurrent = loc === lang;
+            const targetUrl = getTargetLocaleUrl(currentUrl, loc);
+            return (
+              <a
+                href={targetUrl}
+                class={`hover:text-brand-teal dark:hover:text-white transition-colors ${
+                  isCurrent ? 'font-bold text-brand-dark dark:text-brand-gold underline underline-offset-4' : ''
+                }`}
+              >
+                {languages[loc]}
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+
+    <!-- Copyright Bar -->
+    <div class="mt-8 pt-6 border-t border-brand-sand/50 dark:border-brand-teal/15 flex flex-col sm:flex-row items-center justify-between text-xs text-brand-textMutedLight dark:text-brand-textMutedDark gap-4">
+      <p>© {currentYear} EncryptFile. {t('footer.rights')}</p>
+      <p class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>100% Client-Side AES-256-GCM</span>
+      </p>
+    </div>
+  </div>
+</footer>
