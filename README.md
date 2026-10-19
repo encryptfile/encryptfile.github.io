@@ -3,7 +3,7 @@
 # EncryptFile | Free Online File Encryptor & Decryptor
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-encryptfile.github.io-2A6B5C?style=for-the-badge&logo=googlechrome&logoColor=white)](https://encryptfile.github.io)
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-C49A45?style=for-the-badge&logo=buymeacoffee&logoColor=123F36)](https://buymeacoffee.com/kisharadilz)
+[![Support on Ko-fi](https://img.shields.io/badge/Ko--fi-Support-C49A45?style=for-the-badge&logo=kofi&logoColor=123F36)](https://ko-fi.com/kishara)
 [![License: MIT](https://img.shields.io/badge/License-MIT-123F36?style=for-the-badge)](LICENSE)
 
 <br />
@@ -18,7 +18,7 @@ Password-protect any file (PDF, images, archives, video, documents) using milita
 
 **Zero server uploads. Zero telemetry. Zero cookies. 100% Client-Side Privacy.**
 
-[🌐 Explore Live Utility](https://encryptfile.github.io) • [📖 Documentation](#cryptographic-architecture) • [☕ Support Developer](https://buymeacoffee.com/kisharadilz)
+[🌐 Explore Live Utility](https://encryptfile.github.io) • [📖 Documentation](#cryptographic-architecture) • [☕ Support Developer](https://ko-fi.com/kishara)
 
 </div>
 
@@ -207,12 +207,12 @@ encryptfile.github.io/
 ---
 
 ## ☕ Support the Developer
-
+ 
 If EncryptFile saved you time or protected your confidential documents, consider supporting continued open-source development:
 
 <div align="left">
-  <a href="https://buymeacoffee.com/kisharadilz" target="_blank">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50" width="210" />
+  <a href="https://ko-fi.com/kishara" target="_blank">
+    <img src="https://storage.ko-fi.com/cdn/kofi3.png?v=3" alt="Buy Me A Coffee at ko-fi.com" height="48" style="border:0px;height:48px;" />
   </a>
 </div>
 
